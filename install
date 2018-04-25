@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Install supervisorCTL
+apt-get install supervisor --yes
+
+# Python 3 with PIP and dependecies
+apt-get install python3 --yes
+apt-get install python3-pip --yes
+
+# Install supervisorCTL
+apt-get install supervisor --yes
+apt-get install python3 --yes
+apt-get install python3-pip --yes
+
+# Install pip dependencies
+pip3 install pika
+pip3 install pyyaml
+pip3 install --upgrade google-cloud-datastore
+
+
+#!/bin/bash
+VERSION=${1:-latest}
+
+wget https://raw.githubusercontent.com/needle-project/paddler/${VERSION}/paddler.py
+mv paddler.py /usr/local/bin/paddler
+chmod +x /usr/local/bin/paddler
+mkdir -p /etc/paddler/conf
+
+adduser --disabled-password --gecos "" paddler
+chown -R /etc/paddler
+
+# Add supervisor helper
+wget https://raw.githubusercontent.com/needle-project/paddler/${VERSION}/make-supervisor-conf.sh
+mv make-supervisor-conf.sh /etc/paddler/make-supervisor-conf
+chmod +x /etc/paddler/make-supervisor-conf
+
+# Delete installer
+rm -- "$0"
